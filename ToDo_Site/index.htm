@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>To Do List</title>
+</head>
+<body>
+
+<style style="text/css">
+    div{
+        font-family: "Verdana"
+    }
+  	.hoverTable{
+		border-collapse:collapse; 
+	}
+	.hoverTable tr{
+		background: white;
+	}
+	.hoverTable td{ 
+		padding:7px; border:0px ;
+	}
+	.dataRow:hover {
+        background-color: #f2f2f2;
+    }
+</style>
+
+
+<script type="text/javascript">
+
+	//###############################################################################
+    //###############################################################################
+	// Support functions
+    //###############################################################################
+    //###############################################################################
+	
+	
+	
+	//-----------------------------------------------------------------------------
+	// Hides the detail section
+	// Parameters: none
+    function cancelDetails()
+    {
+        var divDetails = document.getElementById("divDetails").innerHTML = "";
+    }
+    
+    
+    
+    //-----------------------------------------------------------------------------
+    // Makes the layout uniform in detail section
+    // Parameters: none
+    function generateDetailsControls()
+    {
+        var divDetails = document.getElementById("divDetails");
+        var generatedHTML = "";
+        
+        generatedHTML += "<input type='hidden' id='detailIndex' value='0' />"
+        generatedHTML += "<textarea type='text' rows='1' cols='40' id='detailHeader'></textarea> <br />";
+        generatedHTML += "<textarea type='text' rows='5' cols='40' id='detailBody'></textarea> <br /><br />";
+
+        divDetails.innerHTML = generatedHTML;
+    }
+    
+    
+    
+    //-----------------------------------------------------------------------------
+    // Shows the details and controls for the task within the div 'divDetails' 
+    // Parameters:
+    //      index -> Type: int (base zero)
+    function getDetailsTask(index) 
+    {
+        var divDetails = document.getElementById("divDetails");
+        var generatedHTML = "";
+
+        
+        var header = document.getElementById("tdHeader"+index.toString()).innerText;
+        var body = document.getElementById("tdBody"+index.toString()).innerText;
+        
+        generateDetailsControls();
+        
+        document.getElementById("detailIndex").value = index;
+        document.getElementById("detailHeader").value = header;
+        document.getElementById("detailBody").value = body;
+
+        
+        generatedHTML += "<button type='button' onclick='editTask("+index.toString()+")'>Save</button>";
+        generatedHTML += "<button type='button' id='btCancelDetails' onclick='cancelDetails();') >Cancel</button>";
+        generatedHTML += "<button type='button' onclick='deleteTask("+index.toString()+")'>Delete</button>";
+        divDetails.insertAdjacentHTML('beforeend', generatedHTML)
+        
+    }
+    
+    
+    
+    //-----------------------------------------------------------------------------
+    // Creates all the controls necessary to insert a new task
+    // Parameters: none
+    function addTask_btnClick()
+    {
+        var divDetails = document.getElementById("divDetails");
+        var generatedHTML = "";
+        
+        generateDetailsControls();
+        
+        generatedHTML += "<button type='button' onclick='saveTask()'>Save</button>";
+        generatedHTML += "<button type='button' id='btCancelDetails' onclick='cancelDetails();') >Cancel</button>";
+        divDetails.insertAdjacentHTML('beforeend', generatedHTML)
+    }
+    
+
+    //-----------------------------------------------------------------------------
+    // Loads all the tasks stored in the server memory
+    // Parameters: none
+    window.onload = function page_load() {
+        loadDoc("list");
+    };
+    
+    
+    
+    //-----------------------------------------------------------------------------
+    // Ajax caller function
+    // Parameters: none
+    //      action   -> Type: string (performs the action)
+    //      param    -> Type: string (parameters to be called)
+
+    function loadDoc(action, param) 
+    {
+        var xhttp = new XMLHttpRequest();
+
+        //if the query string is the same internet explorer may choose not to submit it
+        //  adding an always variable parameter IE is forced to submit the new request
+        //     *it will be used below on the page call
+        var time = new Date().getTime().toString();
+        
+        
+        if (action == null || action == "" ) {action = "list";}
+        if (param == null || param == "" ) {param = "";}
+
+
+        
+        xhttp.onreadystatechange = function() 
+        {
+            if (this.readyState == 4 && this.status == 200) 
+            {
+                generateList(this.responseXML);
+            }
+        };
+
+
+        
+        xhttp.open("GET", "xml_todo.aspx?action=" + action + param + "&bust=" + time, true);
+
+        xhttp.send();
+    }
+
+
+
+    //-----------------------------------------------------------------------------
+    // Generates the list of tasks with the necessary controls 
+    // Parameters:
+    //      responseXML -> Type: XML (xml document from the server with all tasks)
+    function generateList(responseXML) {
+
+        var dataArray = responseXML.getElementsByTagName("ToDo");
+        if (dataArray != null && dataArray.length > 0) {
+            var index = 0;
+            var complete = 0;
+            var header = "";
+            var body = "";
+
+            var generatedHTML;
+
+            generatedHTML = "<table class='hoverTable'>";
+            generatedHTML += "<tr><th>Complete</th><th>ToDo</th><th>Details</th></tr>";
+            
+            for (var i = 0; i < dataArray.length; i++) {
+                var todoTask = dataArray[i];
+
+                index = todoTask.getElementsByTagName("index")[0].firstChild.nodeValue;
+                complete = todoTask.getElementsByTagName("complete")[0].firstChild.nodeValue;
+                header = todoTask.getElementsByTagName("header")[0].firstChild.nodeValue;
+                if (todoTask.getElementsByTagName("body")[0].firstChild != null) {
+                    body = todoTask.getElementsByTagName("body")[0].firstChild.nodeValue;
+                }
+                else {
+                    body = "";
+                }
+                
+
+                generatedHTML += "<tr id='tr" + index.toString() + "' ondblclick='getDetailsTask(" + index.toString() + ");' class='dataRow'>";
+                generatedHTML += "<td><input type='checkbox' onclick='completeTask("+index.toString()+");' id='chk"+index.toString()+"' "+ ( complete == 1 ? "checked" : "" ) +" /></td>";
+                generatedHTML += "<td id='tdHeader"+index.toString()+"'>" + header + "</td>";
+                generatedHTML += "<td id='tdBody"+index.toString()+"'>" + body + "</td>";
+                generatedHTML += "</tr>";
+
+            }
+            generatedHTML += "</table>";
+
+            document.getElementById("divToDo").innerHTML = generatedHTML;
+        } 
+    }
+    
+    //###############################################################################
+    //###############################################################################
+	// Functions Section for:
+    //    ADD, DELETE, COMPLETE, EDIT
+    //###############################################################################
+    //###############################################################################
+    
+    
+    //-----------------------------------------------------------------------------
+    // Remove one particular task 
+    // Parameters:
+    //      index -> Type: int (base zero)
+    function deleteTask(index)
+    {
+        loadDoc("remove","&index="+index.toString());
+        document.getElementById("divDetails").innerHTML = "";
+    }    
+    
+    
+    //-----------------------------------------------------------------------------
+    // Marks a task as completed
+    // Parameters:
+    //      index -> Type: int (base zero)
+    function completeTask(index)
+    {
+        var complete = 0;
+        if (document.getElementById("chk"+index.toString()).checked == true){  
+            complete = 1; 
+        }
+        else { 
+            complete = 0; 
+        }
+
+        
+        loadDoc("complete","&index="+index.toString()+"&complete="+complete.toString());
+    }
+    
+    
+    //-----------------------------------------------------------------------------
+    // Edit one particular task     
+    // Parameters:
+    //      index -> Type: int (base zero)
+    function editTask(index){
+        var complete = 0;
+        var header = document.getElementById("detailHeader").value;
+        var body = document.getElementById("detailBody").value;
+        
+        if (document.getElementById("chk"+index.toString()).checked == true){  
+            complete = 1; 
+        }
+        else { 
+            complete = 0; 
+        }
+        
+        loadDoc("edit","&index="+index.toString()+"&complete="+complete.toString()+"&header="+header+"&body="+body);
+        
+        document.getElementById("divDetails").innerHTML = "";
+        
+    }
+    
+    
+    //-----------------------------------------------------------------------------
+    // Adds a new element
+    // Parameters: none
+    function saveTask()
+    {
+    
+        var complete = 0;
+        var header = document.getElementById("detailHeader").value;
+        var body = document.getElementById("detailBody").value;
+        
+        
+        loadDoc("add","&complete="+complete.toString()+"&header="+header+"&body="+body);
+        
+        document.getElementById("divDetails").innerHTML = "";
+        
+    }
+    
+    
+    
+</script>
+    <div><p>Add a new Item or double-click on it to edit</p></div>
+    <div id='divToDo'>
+        <table>
+        </table>
+    </div>
+   <button type="button" onclick="addTask_btnClick()">Add</button>
+    <br />
+    <br />
+    <br />
+    <div id='divDetails'/>
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo", "ToDoVC\ToDo.csproj", "{D44C602E-8195-4082-898D-A5859996DA06}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ToDo_Site", "ToDo_Site\", "{6E22A3BB-75E6-4BAD-8B4A-B46553216374}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFramework = "3.5"
+		ProjectReferences = "{D44C602E-8195-4082-898D-A5859996DA06}|ToDoVC.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/ToDo_Site"
+		Debug.AspNetCompiler.PhysicalPath = "ToDo_Site\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\ToDo_Site\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/ToDo_Site"
+		Release.AspNetCompiler.PhysicalPath = "ToDo_Site\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\ToDo_Site\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "56916"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D44C602E-8195-4082-898D-A5859996DA06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D44C602E-8195-4082-898D-A5859996DA06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D44C602E-8195-4082-898D-A5859996DA06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D44C602E-8195-4082-898D-A5859996DA06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E22A3BB-75E6-4BAD-8B4A-B46553216374}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E22A3BB-75E6-4BAD-8B4A-B46553216374}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E22A3BB-75E6-4BAD-8B4A-B46553216374}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E22A3BB-75E6-4BAD-8B4A-B46553216374}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

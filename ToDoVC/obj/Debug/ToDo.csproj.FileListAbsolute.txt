@@ -1,0 +1,10 @@
+C:\Users\Avell B154 PLUS\Desktop\crud\ToDo_CRUD\ToDoVC\bin\Debug\ToDoVC.dll
+C:\Users\Avell B154 PLUS\Desktop\crud\ToDo_CRUD\ToDoVC\bin\Debug\ToDoVC.pdb
+C:\Users\Avell B154 PLUS\Desktop\crud\ToDo_CRUD\ToDoVC\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Avell B154 PLUS\Desktop\crud\ToDo_CRUD\ToDoVC\obj\Debug\ToDoVC.dll
+C:\Users\Avell B154 PLUS\Desktop\crud\ToDo_CRUD\ToDoVC\obj\Debug\ToDoVC.pdb
+C:\Users\Avell B154 PLUS\Desktop\enviar git\ToDo_CRUD_Plooto\ToDoVC\bin\Debug\ToDoVC.dll
+C:\Users\Avell B154 PLUS\Desktop\enviar git\ToDo_CRUD_Plooto\ToDoVC\bin\Debug\ToDoVC.pdb
+C:\Users\Avell B154 PLUS\Desktop\enviar git\ToDo_CRUD_Plooto\ToDoVC\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Avell B154 PLUS\Desktop\enviar git\ToDo_CRUD_Plooto\ToDoVC\obj\Debug\ToDoVC.dll
+C:\Users\Avell B154 PLUS\Desktop\enviar git\ToDo_CRUD_Plooto\ToDoVC\obj\Debug\ToDoVC.pdb
